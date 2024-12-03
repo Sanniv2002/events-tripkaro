@@ -70,6 +70,19 @@ app.post("/send-notification", (req, res) => {
     }
 });
 
+// Health check route
+app.get("/health", (req, res) => {
+    const totalRooms = rooms.size;
+    const totalConnections = Array.from(rooms.values()).reduce((acc, room) => acc + room.size, 0);
+
+    res.json({
+        status: "OK",
+        totalRooms,
+        totalConnections,
+        timestamp: new Date().toISOString(),
+    });
+});
+
 // Start the server
 const PORT = 8000;
 server.listen(PORT, () => {
